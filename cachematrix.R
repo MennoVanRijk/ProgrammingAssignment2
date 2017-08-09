@@ -1,15 +1,35 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Programming assignment 2 - reading cashed data if possible, otherwise calculate inverse of matrix
 
-## Write a short comment describing this function
+## Cache matrix tries to retrieve data from the local cache, if not found calculate, calculate inverse
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  s <- NULL
+  set <- function(y) {
+    x <<- y
+    s <<- NULL
+  }
+  get <- function() x
+  setinverse <- function(inverse) s <<- inverse
+  getinverse <- function() s
+  list(set = set,
+       get = get,
+       setinverse = setinverse,
+       getinverse = getinverse)
 }
 
 
-## Write a short comment describing this function
+## Return a matrix that is the inverse of 'x'
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  s <- x$getinverse()
+  if (!is.null(s)) {
+    message("getting cached inverted data")
+    return(s)
+  }
+  data <- x$get()
+  s <- solve(data, ...)
+  x$setinverse(s)
+  s
 }
+
+
